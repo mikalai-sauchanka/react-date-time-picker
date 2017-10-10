@@ -1,0 +1,201 @@
+@import "themes/blue"
+
+$width: 230px
+
+@mixin border()
+    border: 1px solid rgba(128, 128, 0, 0.5)
+
+.header
+    width: $width
+    display: flex
+    box-sizing: border-box
+    background-color: $header-bg-color
+    color: $header-color
+    font-weight: bold
+
+    .back,
+    .title,
+    .next
+        cursor: pointer
+        display: flex
+        flex-direction: column
+        justify-content: center
+
+    .back:before
+        content: ''
+        display: inline-block
+        border-right: 0.25em solid $header-color
+        border-bottom: 0.25em solid $header-color
+        width: 0.5em
+        height: 0.5em
+        transform: rotate(-225deg)
+        margin-left: 0.6em
+
+    .next:before
+        content: ''
+        display: inline-block
+        border-right: 0.25em solid $header-color
+        border-bottom: 0.25em solid $header-color
+        width: 0.5em
+        height: 0.5em
+        transform: rotate(-45deg)
+        margin-right: 0.6em
+
+    .title
+        flex-grow: 1
+        padding: 10px 0
+
+
+
+.day-view,
+.month-view,
+.year-view
+    width: $width
+
+    .body
+        padding: 10px
+
+        .grid
+            .row
+                .cell
+                    display: inline-block
+                    box-sizing: border-box
+                    text-align: center
+                    font-size: 0.8em
+                    position: relative
+                    cursor: pointer
+                    color: $color
+
+                    &.highlight
+                        background-color: $hover-bg-color
+
+                    &:hover
+                        background-color: $hover-bg-color
+
+                    &.selected
+                        background-color: $selected-bg-color
+                        color: $selected-color
+
+.month-view .body .row .cell
+    width: calc(100% / 3)
+
+    .month
+        padding: 10px 5px
+
+.year-view .body .row .cell
+    width: calc(100% / 3)
+
+    .year
+        padding: 10px 5px
+
+.day-view
+    .body
+        .weekdays .weekday
+            font-weight: bold
+            color: $weekday-color
+            width: calc(100% / 7)
+            display: inline-block
+            padding: 5px
+            box-sizing: border-box
+            text-align: center
+            font-size: 0.8em
+            position: relative
+        
+        .row
+            .cell
+                width: calc(100% / 7)
+
+                .day
+                    padding: 5px
+
+                    &.prev-month,
+                    &.next-month
+                        color: $day-other-month-color
+
+                    &.today
+                        &::before,
+                        &::after 
+                            content: ''
+                            position: absolute
+                            bottom: 0
+                            right: 0
+                            border-color: transparent
+                            border-style: solid
+                            border-width: 0.3em
+                            border-right-color: $today-chevron-color
+                            border-bottom-color: $today-chevron-color
+
+.time-view
+    display: flex
+    flex-direction: row
+    justify-content: center
+    color: $color
+    padding: 10px
+
+    .up-down-container
+        display: flex
+        flex-direction: column
+        padding: 0 20px
+
+        .value
+            font-weight: bold
+            font-size: 4em
+
+        .down,
+        .up
+            font-size: 3em
+            cursor: pointer
+            padding: 5px
+
+            &:before
+                content: ''
+                display: inline-block
+                border-right: 0.15em solid $time-arrow-color
+                border-bottom: 0.15em solid $time-arrow-color
+                width: 0.5em
+                height: 0.5em
+
+        .down:before
+            transform: rotate(45deg)
+
+        .up:before
+            transform: rotate(-135deg)
+
+.date-time-container
+    width: $width
+    @include border()
+
+    .date-toggle,
+    .time-toggle
+        text-align: center
+        display: block
+        width: 100%
+        height: 30px
+        line-height: 30px
+        font-size: 0.8em
+        cursor: pointer
+
+        &:hover
+            background-color: $hover-bg-color
+        
+    .date-toggle
+        background: $calendar-icon center no-repeat
+        background-size: 24px 24px
+
+    .time-toggle
+        background: $clock-icon center no-repeat
+        background-size: 24px 24px
+
+.date-time-view-enter 
+  transform: translate(100%)
+
+.date-time-view-enter.date-time-view-enter-active 
+  transform: translate(0%)
+  transition: transform 1000ms ease-in-out
+
+.date-time-view-leave 
+  transform: translate(0%)
+
+.date-time-view-leave.date-time-view-leave-active 
+  transform: translate(-100%)
+  transition: transform 1000ms ease-in-out
