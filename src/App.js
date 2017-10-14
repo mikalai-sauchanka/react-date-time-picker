@@ -3,23 +3,31 @@ import logo from './logo.svg';
 import './App.css';
 import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
+import moment from 'moment'
 
-import {DayView, MonthView, DateTime} from './date-time-picker'
+import DateTimePicker, {DayView, MonthView, DateTime, SingleDatePicker} from './date-time-picker'
 
 class App extends Component {
-  render() {
-    // Render the Calendar
-    var today = new Date();
-    var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+  constructor (props) {
+    super(props)
 
+    this.state = {
+      selectedDate: moment()
+    }
+  }
+
+  _onChange = (day) => {
+    this.setState({selectedDate: day})
+  }
+
+  render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <DateTime showTime/>
-
+        <SingleDatePicker
+          onChange={this._onChange}
+          value={this.state.selectedDate}
+          closeOnChange
+          closeOnClickOutside />
       </div>
     );
   }

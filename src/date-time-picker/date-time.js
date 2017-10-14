@@ -16,7 +16,7 @@ class DateTime extends React.Component {
         const selectedDays = selection.days && selection.days.length ? selection.days : [moment()]
 
         this.state = {
-            currentView: 'time',
+            currentView: 'day',
             date: selectedDays[0],
             selectedDays: selectedDays
         }
@@ -32,7 +32,7 @@ class DateTime extends React.Component {
 
     _onDateSelectionChange = (days) => {
         this.setState({selectedDays: days})
-        this.props.selection && this.props.selection.onChange && this.props.selection.onChange()
+        this.props.selection && this.props.selection.onChange && this.props.selection.onChange(days)
     }
 
     _onMonthSelectionChange = (months) => {
@@ -109,13 +109,7 @@ class DateTime extends React.Component {
                 break
         }
         return <div className='date-time-container'>       
-            <CSSTransitionGroup
-                transitionName='date-time-view'
-                transitionEnterTimeout={1000}
-                transitionLeaveTimeout={1000}
-            >
-                {content}
-            </CSSTransitionGroup>
+            {content}
         </div>
     }
 }

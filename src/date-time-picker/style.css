@@ -1,7 +1,9 @@
+* {
+  box-sizing: border-box; }
+
 .header {
   width: 230px;
   display: flex;
-  box-sizing: border-box;
   background-color: #305091;
   color: #FFF;
   font-weight: bold; }
@@ -46,7 +48,6 @@
     .month-view .body .grid .row .cell,
     .year-view .body .grid .row .cell {
       display: inline-block;
-      box-sizing: border-box;
       text-align: center;
       font-size: 0.8em;
       position: relative;
@@ -76,16 +77,17 @@
   .year-view .body .row .cell .year {
     padding: 10px 5px; }
 
-.day-view .body .weekdays .weekday {
-  font-weight: bold;
-  color: #999;
-  width: calc(100% / 7);
-  display: inline-block;
-  padding: 5px;
-  box-sizing: border-box;
-  text-align: center;
-  font-size: 0.8em;
-  position: relative; }
+.day-view .body .weekdays {
+  display: flex; }
+  .day-view .body .weekdays .weekday {
+    font-weight: bold;
+    color: #999;
+    width: calc(100% / 7);
+    display: inline-block;
+    padding: 5px;
+    text-align: center;
+    font-size: 0.8em;
+    position: relative; }
 
 .day-view .body .row .cell {
   width: calc(100% / 7); }
@@ -137,7 +139,7 @@
 
 .date-time-container {
   width: 230px;
-  border: 1px solid rgba(128, 128, 0, 0.5); }
+  border: 1px solid #efe8ef; }
   .date-time-container .date-toggle,
   .date-time-container .time-toggle {
     text-align: center;
@@ -156,6 +158,19 @@
   .date-time-container .time-toggle {
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMC8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQnPjxzdmcgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMzIgMzIiIGhlaWdodD0iMzIiIG92ZXJmbG93PSJ2aXNpYmxlIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PGc+PGcgaWQ9IkNsb2NrXzJfIj48ZyBpZD0iQ2xvY2tfMV8iPjxjaXJjbGUgY3g9IjE2IiBjeT0iMTYiIGZpbGw9IiMzODQ0N0UiIGlkPSJDbG9ja19Cb3JkZXIiIHI9IjE2Ii8+PGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgZmlsbD0iI0U2RTZFNiIgaWQ9IkNsb2NrIiByPSIxMi44Ii8+PHBhdGggZD0iTTIzLjk5NSwxNnYyLjAwNmgtOS45OWw4LjgxMyw4LjgxMyAgICAgICBjMi40NTUtMS41NSw0LjM0My0zLjkwNiw1LjI5My02LjcwM0wyMy45OTUsMTZ6IiBmaWxsPSIjRDNEM0QzIiBpZD0iQ2xvY2tfaGFuZF9zaGFkb3ciLz48ZyBpZD0iQ2xvY2tfSGFuZCI+PHJlY3QgZmlsbD0iIzRCNEI1MyIgaGVpZ2h0PSIyIiBpZD0iSG9yaXplbnRhbF9oYW5kIiB3aWR0aD0iMTAiIHg9IjE0IiB5PSIxNi4wMDUiLz48cmVjdCBmaWxsPSIjNEI0QjUzIiBoZWlnaHQ9IjExIiBpZD0iVmVydGljYWxfaGFuZCIgd2lkdGg9IjIiIHg9IjE0IiB5PSI3Ii8+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==) center no-repeat;
     background-size: 24px 24px; }
+
+.date-time-picker {
+  position: relative;
+  display: inline-block; }
+  .date-time-picker .date-time-toggle {
+    width: 230px;
+    padding: 5px;
+    display: block;
+    border: 1px solid #efe8ef; }
+    .date-time-picker .date-time-toggle.readonly {
+      cursor: pointer; }
+  .date-time-picker .date-time-container {
+    position: absolute; }
 
 .date-time-view-enter {
   transform: translate(100%); }

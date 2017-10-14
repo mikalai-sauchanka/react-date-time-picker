@@ -3,12 +3,14 @@
 $width: 230px
 
 @mixin border()
-    border: 1px solid rgba(128, 128, 0, 0.5)
+    border: 1px solid #efe8ef
+
+*
+    box-sizing: border-box
 
 .header
     width: $width
     display: flex
-    box-sizing: border-box
     background-color: $header-bg-color
     color: $header-color
     font-weight: bold
@@ -45,8 +47,6 @@ $width: 230px
         flex-grow: 1
         padding: 10px 0
 
-
-
 .day-view,
 .month-view,
 .year-view
@@ -59,7 +59,6 @@ $width: 230px
             .row
                 .cell
                     display: inline-block
-                    box-sizing: border-box
                     text-align: center
                     font-size: 0.8em
                     position: relative
@@ -90,16 +89,18 @@ $width: 230px
 
 .day-view
     .body
-        .weekdays .weekday
-            font-weight: bold
-            color: $weekday-color
-            width: calc(100% / 7)
-            display: inline-block
-            padding: 5px
-            box-sizing: border-box
-            text-align: center
-            font-size: 0.8em
-            position: relative
+        .weekdays
+            display: flex
+
+            .weekday
+                font-weight: bold
+                color: $weekday-color
+                width: calc(100% / 7)
+                display: inline-block
+                padding: 5px
+                text-align: center
+                font-size: 0.8em
+                position: relative
         
         .row
             .cell
@@ -185,6 +186,22 @@ $width: 230px
     .time-toggle
         background: $clock-icon center no-repeat
         background-size: 24px 24px
+
+.date-time-picker
+    position: relative
+    display: inline-block    
+
+    .date-time-toggle
+        width: $width
+        padding: 5px
+        display: block
+        @include border()
+
+        &.readonly
+            cursor: pointer
+
+    .date-time-container
+        position: absolute
 
 .date-time-view-enter 
   transform: translate(100%)
