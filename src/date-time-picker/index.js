@@ -20,12 +20,20 @@ export {
     SingleDatePicker
 }
 
+const CommonProps = {
+    firstDayOfWeek: PropTypes.number,
+    onChange: PropTypes.func,
+    displayFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    closeOnChange: PropTypes.bool,
+    closeOnClickOutside: PropTypes.bool
+}
+
 class SingleDatePicker extends React.Component {
     _onChange = (days) => {
         this.props.onChange && this.props.onChange(days[0])
     }
 
-    _toDisplayDate = () => {
+    _formatDisplayDate = () => {
         return this.props.displayFormat instanceof Function ? this.props.displayFormat(this.props.value) : this.props.value.format(this.props.displayFormat)
     }
 
@@ -38,21 +46,16 @@ class SingleDatePicker extends React.Component {
                 days: [this.props.value]
             }}
             showTime={false}
-            displayFormat={this._toDisplayDate}
+            displayFormat={this._formatDisplayDate}
             closeOnChange={this.props.closeOnChange}
             closeOnClickOutside={this.props.closeOnClickOutside}
         />
     }
 }
 
-SingleDatePicker.propTypes = {
-    firstDayOfWeek: PropTypes.number,
-    onChange: PropTypes.func,
-    value: PropTypes.instanceOf(moment),
-    displayFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    closeOnChange: PropTypes.bool,
-    closeOnClickOutside: PropTypes.bool
-}
+SingleDatePicker.propTypes = Object.assign({
+    value: PropTypes.instanceOf(moment)
+}, CommonProps)
 
 SingleDatePicker.defaultProps = {
     displayFormat: 'DD MMM YYYY'
@@ -63,7 +66,7 @@ class DateTimePicker extends React.Component {
         this.props.onChange && this.props.onChange(days[0])
     }
    
-    _toDisplayDate = () => {
+    _formatDisplayDateTime = () => {
         return this.props.displayFormat instanceof Function ? this.props.displayFormat(this.props.value) : this.props.value.format(this.props.displayFormat)
     }
 
@@ -76,16 +79,20 @@ class DateTimePicker extends React.Component {
                 days: [this.props.value]                
             }}
             showTime
-            displayFormat={this._toDisplayDate}
+            onTimeChange={(time) => this._onChange([time])}
+            displayFormat={this._formatDisplayDateTime}
+            closeOnChange={this.props.closeOnChange}
+            closeOnClickOutside={this.props.closeOnClickOutside}
         />
     }
 }
 
-DateTimePicker.propTypes = {
-    firstDayOfWeek: PropTypes.number,
-    onChange: PropTypes.func,
-    value: PropTypes.instanceOf(moment),
-    displayFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+DateTimePicker.propTypes = Object.assign({
+    value: PropTypes.instanceOf(moment)
+}, CommonProps)
+
+DateTimePicker.defaultProps = {
+    displayFormat: 'DD MMM YYYY HH:mm'
 }
 
 class DateTimePickerInternal extends React.Component {
@@ -102,7 +109,9 @@ class DateTimePickerInternal extends React.Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        this._setCloseHandler(nextProps)   
+        if (nextProps.closeOnClickOutside !== this.props.closeOnClickOutside) {
+            this._setCloseHandler(nextProps)            
+        }
     }
 
     componentDidUpdate (prevProps, prevState) {
@@ -117,7 +126,10 @@ class DateTimePickerInternal extends React.Component {
     }
 
     componentWillUnmount () {
-        
+        if (this.hasCloseHandler) {
+            document.removeEventListener('click', this._closeHander)
+            this.hasCloseHandler = false
+        }
     }
 
     _closeHander = (e) => {
@@ -128,14 +140,13 @@ class DateTimePickerInternal extends React.Component {
     }
 
     _setCloseHandler = (props) => {
-        debugger
         if (props.closeOnClickOutside) {
             if (this.hasCloseHandler) return
-            document.addEventListener('click', this._closeHander)
-            this.hasCloseHandler = false            
+            document.addEventListener('click', this._closeHander, true)
+            this.hasCloseHandler = true            
         } else {
             if (!this.hasCloseHandler) return
-            document.removeEventListener('click', this._closeHander)
+            document.removeEventListener('click', this._closeHander, true)
             this.hasCloseHandler = false
         }
     }
@@ -159,7 +170,8 @@ class DateTimePickerInternal extends React.Component {
                 onChange: this._onChange,
                 days: this.props.selection.days
             },
-            showTime: this.props.showTime
+            showTime: this.props.showTime,
+            onTimeChange: this.props.onTimeChange
         }
 
         return <div ref={cnr => this.cnr = cnr} className='date-time-picker'>
@@ -176,6 +188,7 @@ DateTimePickerInternal.propTypes = {
         onChange: PropTypes.func,
         days: PropTypes.arrayOf(PropTypes.instanceOf(moment)),
     }),
+    onTimeChange: PropTypes.func,
     showTime: PropTypes.bool,
     displayFormat: PropTypes.func.isRequired,
     closeOnChange: PropTypes.bool,
