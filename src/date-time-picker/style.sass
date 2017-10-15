@@ -3,12 +3,14 @@
 $width: 230px
 
 @mixin border()
-    border: 1px solid rgba(128, 128, 0, 0.5)
+    border: 1px solid #efe8ef
+
+*
+    box-sizing: border-box
 
 .header
     width: $width
     display: flex
-    box-sizing: border-box
     background-color: $header-bg-color
     color: $header-color
     font-weight: bold
@@ -45,8 +47,6 @@ $width: 230px
         flex-grow: 1
         padding: 10px 0
 
-
-
 .day-view,
 .month-view,
 .year-view
@@ -59,7 +59,6 @@ $width: 230px
             .row
                 .cell
                     display: inline-block
-                    box-sizing: border-box
                     text-align: center
                     font-size: 0.8em
                     position: relative
@@ -90,16 +89,18 @@ $width: 230px
 
 .day-view
     .body
-        .weekdays .weekday
-            font-weight: bold
-            color: $weekday-color
-            width: calc(100% / 7)
-            display: inline-block
-            padding: 5px
-            box-sizing: border-box
-            text-align: center
-            font-size: 0.8em
-            position: relative
+        .weekdays
+            display: flex
+
+            .weekday
+                font-weight: bold
+                color: $weekday-color
+                width: calc(100% / 7)
+                display: inline-block
+                padding: 5px
+                text-align: center
+                font-size: 0.8em
+                position: relative
         
         .row
             .cell
@@ -125,44 +126,48 @@ $width: 230px
                             border-right-color: $today-chevron-color
                             border-bottom-color: $today-chevron-color
 
-.time-view
-    display: flex
-    flex-direction: row
-    justify-content: center
-    color: $color
-    padding: 10px
+.time-view-container
+    background-color: $bg-color
 
-    .up-down-container
+    .time-view
         display: flex
-        flex-direction: column
-        padding: 0 20px
+        flex-direction: row
+        justify-content: center
+        color: $color
+        padding: 10px
 
-        .value
-            font-weight: bold
-            font-size: 4em
+        .up-down-container
+            display: flex
+            flex-direction: column
+            padding: 0 20px
 
-        .down,
-        .up
-            font-size: 3em
-            cursor: pointer
-            padding: 5px
+            .value
+                font-weight: bold
+                font-size: 3em
 
-            &:before
-                content: ''
-                display: inline-block
-                border-right: 0.15em solid $time-arrow-color
-                border-bottom: 0.15em solid $time-arrow-color
-                width: 0.5em
-                height: 0.5em
+            .down,
+            .up
+                font-size: 2em
+                cursor: pointer
+                padding: 5px
 
-        .down:before
-            transform: rotate(45deg)
+                &:before
+                    content: ''
+                    display: inline-block
+                    border-right: 0.15em solid $color
+                    border-bottom: 0.15em solid $color
+                    width: 0.5em
+                    height: 0.5em
 
-        .up:before
-            transform: rotate(-135deg)
+            .down:before
+                transform: rotate(45deg)
+
+            .up:before
+                transform: rotate(-135deg)
 
 .date-time-container
     width: $width
+    background-color: $bg-color
     @include border()
 
     .date-toggle,
@@ -177,14 +182,47 @@ $width: 230px
 
         &:hover
             background-color: $hover-bg-color
-        
+    
+    &.has-time
+        .day-view .body
+            padding-bottom: 0
+        .time-view
+            padding-top: 0
+
     .date-toggle
         background: $calendar-icon center no-repeat
-        background-size: 24px 24px
+        background-size: 16px 16px
 
     .time-toggle
         background: $clock-icon center no-repeat
-        background-size: 24px 24px
+        background-size: 16px 16px
+
+.icon-time
+    background: $clock-icon center no-repeat
+
+.date-time-picker
+    position: relative
+    display: inline-block    
+
+    .date-time-toggle
+        width: $width
+        padding: 5px
+        display: block
+        @include border()
+
+        &.readonly
+            cursor: pointer
+
+    .date-time-container
+        position: absolute
+
+        .day-view,
+        .month-view,
+        .year-view,
+            width: auto
+
+            .header
+                width: auto
 
 .date-time-view-enter 
   transform: translate(100%)

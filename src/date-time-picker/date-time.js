@@ -16,9 +16,10 @@ class DateTime extends React.Component {
         const selectedDays = selection.days && selection.days.length ? selection.days : [moment()]
 
         this.state = {
-            currentView: 'time',
+            currentView: 'day',
             date: selectedDays[0],
-            selectedDays: selectedDays
+            selectedDays: selectedDays,
+            selectedTime: selectedDays[0]
         }
     }
 
@@ -31,8 +32,10 @@ class DateTime extends React.Component {
     }
 
     _onDateSelectionChange = (days) => {
+        const time = this.state.selectedTime
+        days = days.map(d => d.clone().hour(time.hour()).minute(time.minute()))
         this.setState({selectedDays: days})
-        this.props.selection && this.props.selection.onChange && this.props.selection.onChange()
+        this.props.selection && this.props.selection.onChange && this.props.selection.onChange(days)
     }
 
     _onMonthSelectionChange = (months) => {
@@ -44,11 +47,15 @@ class DateTime extends React.Component {
     }
 
     _renderDayView () {
-        const dayView = <DayView key='dv' month={this.state.date} onMonthClick={this._onDVMonthClick} selection={{
-            mode: this.props.selection.mode,
-            items: this.state.selectedDays,
-            onChange: this._onDateSelectionChange
-        }} />
+        const dayView = <DayView key='dv'
+            month={this.state.date}
+            onMonthClick={this._onDVMonthClick}
+            firstDayOfWeek={this.props.firstDayOfWeek}
+            selection={{
+                mode: this.props.selection.mode,
+                items: this.state.selectedDays,
+                onChange: this._onDateSelectionChange
+            }} />
 
         if (!this.props.showTime || this.props.selection.mode !== 'single') return dayView
 
@@ -76,10 +83,9 @@ class DateTime extends React.Component {
 
     _renderTimeView () {
         const selectedDate = this.state.selectedDays[0]
-        const onChange = (time) => {
-            const selectedDays = [selectedDate.clone().hour(time.hour()).minute(time.minute())]
-            this.setState({selectedDays})
-            this.props.selection.onChange && this.props.selection.onChange(selectedDays)
+        const onChange = (dateTime) => {
+            this.setState({selectedDays: [dateTime], selectedTime: dateTime})
+            this.props.onTimeChange && this.props.onTimeChange(dateTime)
         }
         
         const timeView = <TimeView time={selectedDate} onChange={onChange} />
@@ -87,7 +93,7 @@ class DateTime extends React.Component {
         if (!this.props.showTime || this.props.selection.mode !== 'single') return timeView
 
         return <div key='time' className='time-view-container'>
-            <div className='date-toggle' onClick={() => this.setState({currentView: 'day'})} />,
+            <div className='date-toggle' onClick={() => this.setState({currentView: 'day'})} />
             {timeView}
         </div>
     }
@@ -99,7 +105,7 @@ class DateTime extends React.Component {
                 content = this._renderDayView()
                 break
             case 'month': 
-                content = this._renderMonthView()
+                content = this._renderMonthView()   
                 break
             case 'year': 
                 content = this._renderYearView()
@@ -108,14 +114,8 @@ class DateTime extends React.Component {
                 content = this._renderTimeView()
                 break
         }
-        return <div className='date-time-container'>       
-            <CSSTransitionGroup
-                transitionName='date-time-view'
-                transitionEnterTimeout={1000}
-                transitionLeaveTimeout={1000}
-            >
-                {content}
-            </CSSTransitionGroup>
+        return <div className={`date-time-container${this.props.showTime ? ' has-time' : ''}`}>       
+            {content}
         </div>
     }
 }
@@ -127,6 +127,7 @@ DateTime.propTypes = {
         onChange: PropTypes.func,
         days: PropTypes.arrayOf(PropTypes.instanceOf(moment)),
     }),
+    onTimeChange: PropTypes.func,
     showTime: PropTypes.bool   
 }
 
