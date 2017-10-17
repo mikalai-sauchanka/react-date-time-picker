@@ -23,6 +23,7 @@ export {
 const CommonProps = {
     firstDayOfWeek: PropTypes.number,
     onChange: PropTypes.func,
+    placeholder: PropTypes.string,
     displayFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     closeOnChange: PropTypes.bool,
     closeOnClickOutside: PropTypes.bool
@@ -34,6 +35,8 @@ class SingleDatePicker extends React.Component {
     }
 
     _formatDisplayDate = () => {
+        if (!this.props.value) return this.props.placeholder
+
         return this.props.displayFormat instanceof Function ? this.props.displayFormat(this.props.value) : this.props.value.format(this.props.displayFormat)
     }
 
@@ -43,7 +46,7 @@ class SingleDatePicker extends React.Component {
             selection={{
                 mode: 'single',
                 onChange: this._onChange,
-                days: [this.props.value]
+                days: this.props.value ? [this.props.value] : []
             }}
             showTime={false}
             displayFormat={this._formatDisplayDate}
@@ -58,6 +61,7 @@ SingleDatePicker.propTypes = Object.assign({
 }, CommonProps)
 
 SingleDatePicker.defaultProps = {
+    placeholder: 'Select Date',
     displayFormat: 'DD MMM YYYY'
 }
 
@@ -67,6 +71,8 @@ class DateTimePicker extends React.Component {
     }
    
     _formatDisplayDateTime = () => {
+        if (!this.props.value) return this.props.placeholder
+
         return this.props.displayFormat instanceof Function ? this.props.displayFormat(this.props.value) : this.props.value.format(this.props.displayFormat)
     }
 
@@ -76,7 +82,7 @@ class DateTimePicker extends React.Component {
             selection={{
                 mode: 'single',
                 onChange: this._onChange,
-                days: [this.props.value]                
+                days: this.props.value ? [this.props.value] : []               
             }}
             showTime
             onTimeChange={(time) => this._onChange([time])}
@@ -92,6 +98,7 @@ DateTimePicker.propTypes = Object.assign({
 }, CommonProps)
 
 DateTimePicker.defaultProps = {
+    placeholder: 'Select Date Time',
     displayFormat: 'DD MMM YYYY HH:mm'
 }
 
@@ -191,6 +198,7 @@ DateTimePickerInternal.propTypes = {
     onTimeChange: PropTypes.func,
     showTime: PropTypes.bool,
     displayFormat: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
     closeOnChange: PropTypes.bool,
     closeOnClickOutside: PropTypes.bool
 }

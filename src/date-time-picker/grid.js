@@ -55,7 +55,7 @@ class Grid extends Component {
                     if (selectedItems.length === this.state.selectedItems.length) {
                         selectedItems.push(cell)
                     }
-                    this.   _updateSelection(selectedItems)
+                    this._updateSelection(selectedItems)
                     break
                 case 'range':
                     if (!this.state.startItem) {

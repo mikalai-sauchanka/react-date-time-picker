@@ -13,13 +13,13 @@ class DateTime extends React.Component {
         super(props)
 
         const selection = this.props.selection || {}
-        const selectedDays = selection.days && selection.days.length ? selection.days : [moment()]
+        const selectedDays = selection.days || [moment()]
 
         this.state = {
             currentView: 'day',
             date: selectedDays[0],
             selectedDays: selectedDays,
-            selectedTime: selectedDays[0]
+            selectedTime: selectedDays[0] || moment().startOf('day')
         }
     }
 
