@@ -7,11 +7,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-infinite-calendar": "^2.3.1",
-    "react-scripts": "1.0.13",
-    "react-transition-group": "^1.2.0",
-    "roboto-fontface": "^0.8.0"
+    "react-dom": "^15.6.1"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
@@ -22,6 +18,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "node-sass-chokidar": "0.0.3"
+    "node-sass-chokidar": "0.0.3",
+    "react-scripts": "1.0.13"
   }
 }
