@@ -8,6 +8,8 @@ import moment from 'moment'
 import _ from 'lodash'
 import { CSSTransitionGroup } from 'react-transition-group'
 
+const _getStartOfDay = () => moment().startOf('day')
+
 class DateTime extends React.Component {
     constructor (props) {
         super(props)
@@ -46,22 +48,44 @@ class DateTime extends React.Component {
         this.setState({currentView: 'month', date: years[0]})
     }
 
-    _renderDayView () {
-        const dayView = <DayView key='dv'
-            month={this.state.date}
-            onMonthClick={this._onDVMonthClick}
-            firstDayOfWeek={this.props.firstDayOfWeek}
-            selection={{
-                mode: this.props.selection.mode,
-                items: this.state.selectedDays,
-                onChange: this._onDateSelectionChange
-            }} />
+    _onResetClick = () => {
+        this.setState({selectedDays: [], selectedTime: _getStartOfDay()})
+        this.props.selection && this.props.selection.onChange && this.props.selection.onChange([])
+    }
 
-        if (!this.props.showTime || this.props.selection.mode !== 'single') return dayView
+    _onTodayClick = () => {
+        // Note: this is a bit different from the initialization in the constructor - constructor preserves original time
+        const today = moment()
+        const selectedDays = [this.props.showTime ? today : today.clone().startOf('day')]
+        this.setState({
+            date: today,
+            selectedDays: selectedDays,
+            selectedTime: this.props.showTime ? today : today.clone().startOf('day')
+        })
+        this.props.selection && this.props.selection.onChange && this.props.selection.onChange(selectedDays)
+    }
+
+    _renderDayView () {
+        const renderTodayReset = () => {
+            if (!this.props.showResetButton && !this.props.showTodayButton) return null
+            return <div className='today-reset-buttons-container'>
+                {this.props.showTodayButton && <button className='btn-today' onClick={this._onTodayClick}>Today</button>}
+                {this.props.showResetButton && <button className='btn-reset' onClick={this._onResetClick}>Reset</button>}
+            </div>
+        }
 
         return <div key='day' className='day-view-container'>
-            {dayView}
-            <div className='time-toggle' onClick={() => this.setState({currentView: 'time'})}></div>
+            <DayView key='dv'
+                month={this.state.date}
+                onMonthClick={this._onDVMonthClick}
+                firstDayOfWeek={this.props.firstDayOfWeek}
+                selection={{
+                    mode: this.props.selection.mode,
+                    items: this.state.selectedDays,
+                    onChange: this._onDateSelectionChange
+                }} />
+            {this.props.showTime && this.props.selection.mode === 'single' && <div className='time-toggle' onClick={() => this.setState({currentView: 'time'})}></div>}
+            {renderTodayReset()}
         </div>
     }
 
@@ -128,14 +152,18 @@ DateTime.propTypes = {
         days: PropTypes.arrayOf(PropTypes.instanceOf(moment)),
     }),
     onTimeChange: PropTypes.func,
-    showTime: PropTypes.bool   
+    showTime: PropTypes.bool,
+    showTodayButton: PropTypes.bool,
+    showResetButton: PropTypes.bool
 }
 
 DateTime.defaultProps = {
     selection: {
         mode: 'single',
         days: [moment()]
-    }
+    },
+    showTodayButton: false,
+    showResetButton: false
 }
 
 export default DateTime

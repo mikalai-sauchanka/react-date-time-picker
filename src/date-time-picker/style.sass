@@ -3,7 +3,7 @@
 $width: 230px
 
 @mixin border()
-    border: 1px solid #efe8ef
+    border: 1px solid $border-color
 
 *
     box-sizing: border-box
@@ -197,12 +197,32 @@ $width: 230px
         background: $clock-icon center no-repeat
         background-size: 16px 16px
 
+    .today-reset-buttons-container
+        display: flex
+        flex-direction: row
+
+        .btn-today,
+        .btn-reset
+            flex-grow: 1
+            height: 30px
+            background: $bg-color
+            border: none
+            border-top: 1px solid $border-color
+            cursor: pointer
+
+            &:hover
+                background: $hover-bg-color
+        
+        .btn-today+.btn-reset
+            border-left: 1px solid $border-color
+
 .icon-time
     background: $clock-icon center no-repeat
 
 .date-time-picker
     position: relative
-    display: inline-block    
+    display: inline-block
+    text-align: center    
 
     .date-time-toggle
         width: $width

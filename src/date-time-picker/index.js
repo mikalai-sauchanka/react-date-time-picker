@@ -26,7 +26,9 @@ const CommonProps = {
     placeholder: PropTypes.string,
     displayFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     closeOnChange: PropTypes.bool,
-    closeOnClickOutside: PropTypes.bool
+    closeOnClickOutside: PropTypes.bool,
+    showTodayButton: PropTypes.bool,
+    showResetButton: PropTypes.bool
 }
 
 class SingleDatePicker extends React.Component {
@@ -52,6 +54,8 @@ class SingleDatePicker extends React.Component {
             displayFormat={this._formatDisplayDate}
             closeOnChange={this.props.closeOnChange}
             closeOnClickOutside={this.props.closeOnClickOutside}
+            showTodayButton={this.props.showTodayButton}
+            showResetButton={this.props.showResetButton}
         />
     }
 }
@@ -89,6 +93,8 @@ class DateTimePicker extends React.Component {
             displayFormat={this._formatDisplayDateTime}
             closeOnChange={this.props.closeOnChange}
             closeOnClickOutside={this.props.closeOnClickOutside}
+            showTodayButton={this.props.showTodayButton}
+            showResetButton={this.props.showResetButton}
         />
     }
 }
@@ -178,7 +184,9 @@ class DateTimePickerInternal extends React.Component {
                 days: this.props.selection.days
             },
             showTime: this.props.showTime,
-            onTimeChange: this.props.onTimeChange
+            onTimeChange: this.props.onTimeChange,
+            showTodayButton: this.props.showTodayButton,
+            showResetButton: this.props.showResetButton
         }
 
         return <div ref={cnr => this.cnr = cnr} className='date-time-picker'>
@@ -200,7 +208,9 @@ DateTimePickerInternal.propTypes = {
     displayFormat: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     closeOnChange: PropTypes.bool,
-    closeOnClickOutside: PropTypes.bool
+    closeOnClickOutside: PropTypes.bool,
+    showTodayButton: PropTypes.bool,
+    showResetButton: PropTypes.bool
 }
 
 DateTimePickerInternal.defaultProps = {

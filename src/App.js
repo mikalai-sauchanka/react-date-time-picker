@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
 import InfiniteCalendar from 'react-infinite-calendar';
-import 'react-infinite-calendar/styles.css'; // only needs to be imported once
 import moment from 'moment'
+
+import './App.css';
+
+import 'react-infinite-calendar/styles.css'; // only needs to be imported once
 
 import DateTimePicker, {DayView, MonthView, DateTime, SingleDatePicker} from './date-time-picker'
 
@@ -55,9 +57,11 @@ class App extends Component {
     super(props)
 
     this.state = {
-      selectedDate: moment(),
+      selectedDate: null,
       firstDayOfWeek: 0,
       isCustomDisplayFormat: false,
+      showTodayButton: false,
+      showResetButton: false,
       viewType: 'DTP'
     }
   }
@@ -78,12 +82,22 @@ class App extends Component {
     this.setState({isCustomDisplayFormat: !this.state.isCustomDisplayFormat})
   }
 
+  _onShowResetButtonChange = (e) => {
+    this.setState({showResetButton: !this.state.showResetButton})
+  }
+
+  _onShowTodayButtonChange = (e) => {
+    this.setState({showTodayButton: !this.state.showTodayButton})
+  }
+
   render() {
     const commonProps = {
       firstDayOfWeek: this.state.firstDayOfWeek,
       onChange: this._onChange,
       closeOnChange: true,
       closeOnClickOutside: true,
+      showTodayButton: this.state.showTodayButton,
+      showResetButton: this.state.showResetButton,
       displayFormat: this.state.isCustomDisplayFormat ? CUSTOM_DISPLAY_FORMATS[this.state.viewType] : undefined
     }
 
@@ -99,25 +113,36 @@ class App extends Component {
         break
     }
 
-    return <div className="App">
-      <div className='component'>
-        {component}
+    return <div className='app'>
+      <div className='flex-row'>
+        <div className='component'>
+          {component}
+        </div>
+        <div className='settings-container'>
+          <div className='field'>
+            <label className='label'>View Type:</label>
+            <select className='control' value={this.state.viewType} onChange={this._onTypeChange}>
+              {VIEW_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+            </select>
+          </div>
+          <div className='field'>
+            <label className='label'>First Day Of Week</label>
+            <select className='control' value={this.state.firstDayOfWeek} onChange={this._onFirstDayOfWeekChange}>
+              {DAYS_OF_WEEK.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+            </select>
+          </div>
+          <div className='field'>
+            <label className='label'><input type='checkbox' onChange={this._onCustomDisplayFormatChange} checked={this.state.isCustomDisplayFormat} /> Custom Display Format</label>        
+          </div>
+          <div className='field'>
+            <label className='label'><input type='checkbox' onChange={this._onShowTodayButtonChange} checked={this.state.showTodayButton} /> Show Today Button</label>        
+          </div>
+          <div className='field'>
+            <label className='label'><input type='checkbox' onChange={this._onShowResetButtonChange} checked={this.state.showResetButton} /> Show Reset Button</label>        
+          </div>
+        </div>
       </div>
-      <div className='field'>
-        <label className='label'>View Type:</label>
-        <select className='control' value={this.state.viewType} onChange={this._onTypeChange}>
-          {VIEW_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-        </select>
-      </div>
-      <div className='field'>
-        <label className='label'>First Day Of Week</label>
-        <select className='control' value={this.state.firstDayOfWeek} onChange={this._onFirstDayOfWeekChange}>
-          {DAYS_OF_WEEK.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-        </select>
-      </div>
-      <div className='field'>
-        <label className='label'><input type='checkbox' onChange={this._onCustomDisplayFormatChange} checked={this.state.isCustomDisplayFormat} /> Custom Display Format</label>        
-      </div>
+      <h3 className='selected-date-preview'>Selected: {this.state.selectedDate ? this.state.selectedDate.toString() : 'None'}</h3>
     </div>
   }
 }

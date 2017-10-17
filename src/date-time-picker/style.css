@@ -142,7 +142,7 @@
 .date-time-container {
   width: 230px;
   background-color: #FFF;
-  border: 1px solid #efe8ef; }
+  border: 1px solid #EFEFEF; }
   .date-time-container .date-toggle,
   .date-time-container .time-toggle {
     text-align: center;
@@ -165,18 +165,35 @@
   .date-time-container .time-toggle {
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMC8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQnPjxzdmcgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMzIgMzIiIGhlaWdodD0iMzIiIG92ZXJmbG93PSJ2aXNpYmxlIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PGc+PGcgaWQ9IkNsb2NrXzJfIj48ZyBpZD0iQ2xvY2tfMV8iPjxjaXJjbGUgY3g9IjE2IiBjeT0iMTYiIGZpbGw9IiMzODQ0N0UiIGlkPSJDbG9ja19Cb3JkZXIiIHI9IjE2Ii8+PGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgZmlsbD0iI0U2RTZFNiIgaWQ9IkNsb2NrIiByPSIxMi44Ii8+PHBhdGggZD0iTTIzLjk5NSwxNnYyLjAwNmgtOS45OWw4LjgxMyw4LjgxMyAgICAgICBjMi40NTUtMS41NSw0LjM0My0zLjkwNiw1LjI5My02LjcwM0wyMy45OTUsMTZ6IiBmaWxsPSIjRDNEM0QzIiBpZD0iQ2xvY2tfaGFuZF9zaGFkb3ciLz48ZyBpZD0iQ2xvY2tfSGFuZCI+PHJlY3QgZmlsbD0iIzRCNEI1MyIgaGVpZ2h0PSIyIiBpZD0iSG9yaXplbnRhbF9oYW5kIiB3aWR0aD0iMTAiIHg9IjE0IiB5PSIxNi4wMDUiLz48cmVjdCBmaWxsPSIjNEI0QjUzIiBoZWlnaHQ9IjExIiBpZD0iVmVydGljYWxfaGFuZCIgd2lkdGg9IjIiIHg9IjE0IiB5PSI3Ii8+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==) center no-repeat;
     background-size: 16px 16px; }
+  .date-time-container .today-reset-buttons-container {
+    display: flex;
+    flex-direction: row; }
+    .date-time-container .today-reset-buttons-container .btn-today,
+    .date-time-container .today-reset-buttons-container .btn-reset {
+      flex-grow: 1;
+      height: 30px;
+      background: #FFF;
+      border: none;
+      border-top: 1px solid #EFEFEF;
+      cursor: pointer; }
+      .date-time-container .today-reset-buttons-container .btn-today:hover,
+      .date-time-container .today-reset-buttons-container .btn-reset:hover {
+        background: #EEE; }
+    .date-time-container .today-reset-buttons-container .btn-today + .btn-reset {
+      border-left: 1px solid #EFEFEF; }
 
 .icon-time {
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMC8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQnPjxzdmcgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMzIgMzIiIGhlaWdodD0iMzIiIG92ZXJmbG93PSJ2aXNpYmxlIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PGc+PGcgaWQ9IkNsb2NrXzJfIj48ZyBpZD0iQ2xvY2tfMV8iPjxjaXJjbGUgY3g9IjE2IiBjeT0iMTYiIGZpbGw9IiMzODQ0N0UiIGlkPSJDbG9ja19Cb3JkZXIiIHI9IjE2Ii8+PGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgZmlsbD0iI0U2RTZFNiIgaWQ9IkNsb2NrIiByPSIxMi44Ii8+PHBhdGggZD0iTTIzLjk5NSwxNnYyLjAwNmgtOS45OWw4LjgxMyw4LjgxMyAgICAgICBjMi40NTUtMS41NSw0LjM0My0zLjkwNiw1LjI5My02LjcwM0wyMy45OTUsMTZ6IiBmaWxsPSIjRDNEM0QzIiBpZD0iQ2xvY2tfaGFuZF9zaGFkb3ciLz48ZyBpZD0iQ2xvY2tfSGFuZCI+PHJlY3QgZmlsbD0iIzRCNEI1MyIgaGVpZ2h0PSIyIiBpZD0iSG9yaXplbnRhbF9oYW5kIiB3aWR0aD0iMTAiIHg9IjE0IiB5PSIxNi4wMDUiLz48cmVjdCBmaWxsPSIjNEI0QjUzIiBoZWlnaHQ9IjExIiBpZD0iVmVydGljYWxfaGFuZCIgd2lkdGg9IjIiIHg9IjE0IiB5PSI3Ii8+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==) center no-repeat; }
 
 .date-time-picker {
   position: relative;
-  display: inline-block; }
+  display: inline-block;
+  text-align: center; }
   .date-time-picker .date-time-toggle {
     width: 230px;
     padding: 5px;
     display: block;
-    border: 1px solid #efe8ef; }
+    border: 1px solid #EFEFEF; }
     .date-time-picker .date-time-toggle.readonly {
       cursor: pointer; }
   .date-time-picker .date-time-container {
